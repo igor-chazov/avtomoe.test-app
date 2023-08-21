@@ -1,0 +1,9 @@
+POST http://127.0.0.1:8000/api/v1/thumbnails
+Accept: application/json;
+Authorization: Bearer 1|hVGc0SgSjHhIfa9vmfGAgSnR68sMRNxpHD7rVq6V
+Content-Type: application/json
+
+{
+    "image": "public\\uploads\\5_pic.png",
+    "post_id": 5
+}

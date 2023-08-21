@@ -1,0 +1,12 @@
+PUT http://127.0.0.1:8000/api/v1/users/14
+Accept: application/json;
+Authorization: Bearer 1|nruSWkNF4jmiGvXD4zHFdUEuOnrQb1qmeqXHDhlh
+Content-Type: application/json
+
+{
+    "first_name": "Андрей",
+    "last_name": "Петров",
+    "birthday": "2007-12-12",
+    "password": "password!",
+    "confirm_password": "password!"
+}

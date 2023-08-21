@@ -1,7 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ThumbnailController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResizeController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +28,31 @@ Route::get('/clear', function() {
     return "Кэш очищен.";
 });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Auth::routes(['verify' => true]);
+
+Route::middleware('role:admin')->group( function() {
+    Route::get('/admin', function() {
+        return 'Добро пожаловать, Админ!';
+    });
 });
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Ссылка для верификации отправлена!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+Route::get('/file-upload', [ResizeController::class, 'index']);
+Route::post('/resize-file', [ResizeController::class, 'resizeImage'])->name('resizeImage');

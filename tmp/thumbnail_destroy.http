@@ -1,0 +1,3 @@
+DELETE http://127.0.0.1:8000/api/v1/thumbnails/10
+Accept: application/json;
+Authorization: Bearer 1|hVGc0SgSjHhIfa9vmfGAgSnR68sMRNxpHD7rVq6V

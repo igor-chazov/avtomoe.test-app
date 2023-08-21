@@ -1,0 +1,3 @@
+GET http://127.0.0.1:8000/api/v1/comments
+Accept: application/json;
+Authorization: Bearer 3|DPBQh7rrSCGoM4qmdErCSi5BSGJuIJJAXiOTg7Ay
