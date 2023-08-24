@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Thumbnail>
@@ -17,9 +19,12 @@ class ThumbnailFactory extends Factory
      */
     public function definition(): array
     {
+        Storage::fake('images');
+
         return [
             'title' =>  ucfirst(fake()->words(mt_rand(1, 2), true)),
-            'path' => fake()->image('public\uploads'),
+            'path' => UploadedFile::fake()->image('avatar.jpg'),
+            'thumbnail_path' => UploadedFile::fake()->image('avatar.jpg', 150, 150),
             'post_id' => Post::factory(),
         ];
     }

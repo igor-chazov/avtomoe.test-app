@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\ImageSaver;
 use App\Http\Requests\ImageStoreRequest;
 use App\Models\Thumbnail;
 use Illuminate\Http\Request;
@@ -9,6 +10,13 @@ use App\Http\Resources\Thumbnail as ThumbnailResource;
 
 class ThumbnailController extends BaseController
 {
+    private $imageSaver;
+
+    public function __construct(ImageSaver $imageSaver)
+    {
+        $this->imageSaver = $imageSaver;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -23,17 +31,17 @@ class ThumbnailController extends BaseController
      */
     public function store(ImageStoreRequest $request)
     {
-        $image_name = $this->uploadImage($request);
+        $data = $this->imageSaver->upload($request);
 
         $thumbnail = new Thumbnail();
 
-        $input = $request->all();
-        $thumbnail->title = $image_name;
-        $thumbnail->path = '/uploads/' . $image_name;
-        $thumbnail->post_id = $input['post_id'];
+        $thumbnail->fill($request->except('title', 'path', 'thumbnail_path'));
+        $thumbnail->title = $data['image_name'];
+        $thumbnail->path = $data['image_path'];
+        $thumbnail->thumbnail_path = $data['thumbnail_path'];
         $thumbnail->save();
 
-        return $this->sendResponse(new ThumbnailResource($thumbnail) , __('thumbnail.store'));
+        return $this->sendResponse(new ThumbnailResource($thumbnail), __('thumbnail.store'));
     }
 
     /**
@@ -54,33 +62,30 @@ class ThumbnailController extends BaseController
      */
     public function update(ImageStoreRequest $request, Thumbnail $thumbnail)
     {
-        $image_name = $this->uploadImage($request);
+        $data = $this->imageSaver->upload($thumbnail);
 
-        $input = $request->all();
-        $thumbnail->title = $image_name;
-        $thumbnail->path = '/uploads/' . $image_name;
-        $thumbnail->post_id = $input['post_id'];
-        $thumbnail->save();
+        $image = $request->except('title', 'path', 'thumbnail_path');
+        $image['title'] = $data['image_name'];
+        $image['path'] = $data['image_path'];
+        $image['thumbnail_path'] = $data['thumbnail_path'];
+        $thumbnail->update($image);
 
-        return $this->sendResponse(new ThumbnailResource($thumbnail) , __('thumbnail.update'));
+        return $this->sendResponse(new ThumbnailResource($thumbnail), __('thumbnail.update'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Thumbnail $thumbnail)
+    public function destroy($id)
     {
+        $thumbnail = Thumbnail::find($id);
+
+        if (empty($thumbnail)) {
+            return $this->sendError(__('messages.error_record'));
+        }
+
+        $this->imageSaver->remove($thumbnail);
         $thumbnail->delete();
         return $this->sendResponse([], __('thumbnail.destroy'));
-    }
-
-    public function uploadImage($request)
-    {
-        $image = $request->file('image');
-        $image_name = 'image' . time() . '.' . $image->extension();
-        $image_path = public_path(). '/uploads';
-        $image->move($image_path, $image_name);
-
-        return $image_name;
     }
 }

@@ -19,7 +19,7 @@ class ResizeController extends Controller
 
         $image = $request->file('file');
 
-        $input['file'] = time().'.'.$image->getClientOriginalExtension();
+        $input['file'] = 'image' . time().'.'.$image->extension();
 
         $destinationPath = public_path('/thumbnail');
 
@@ -29,7 +29,7 @@ class ResizeController extends Controller
             $constraint->aspectRatio();
         })->save($destinationPath . '/' . $input['file']);
 
-        $destinationPath = public_path('/uploads');
+        $destinationPath = public_path('/images');
 
         $image->move($destinationPath, $input['file']);
 

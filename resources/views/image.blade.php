@@ -15,7 +15,7 @@
 
                 <div class="col-md-12 mb-3">
                     <strong>Загруженное изображение:</strong><br/>
-                    <img src="/uploads/{{ Session::get('fileName') }}" width="650px"/>
+                    <img src="/images/{{ Session::get('fileName') }}" width="650px"/>
                 </div>
             @endif
             @if (count($errors) > 0)

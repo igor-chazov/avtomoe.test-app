@@ -17,4 +17,9 @@ trait ValidateTrait
 
         return false;
     }
+
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+    }
 }

@@ -14,5 +14,7 @@ return [
     */
 
     'upload_image' => 'Image has successfully uploaded.',
+    'error_remove_image' => 'File deletion error.',
+    'error_record' => 'Record not found.',
 
 ];

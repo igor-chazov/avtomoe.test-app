@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
         $this->call( TagSeeder::class);
         $this->command->info(__('seeder.tag_table'));
 
-        $this->call(  ThumbnailSeeder::class);
-        $this->command->info(__('seeder.thumbnail_table'));
+//        $this->call(  ThumbnailSeeder::class);
+//        $this->command->info(__('seeder.thumbnail_table'));
 
         $this->call(  PostTagSeeder::class);
         $this->command->info(__('seeder.post_tag_table'));

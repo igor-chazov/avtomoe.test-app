@@ -14,6 +14,7 @@ class Thumbnail extends Model
     protected $fillable = [
         'title',
         'path',
+        'thumbnail_path',
         'post_id',
     ];
 
@@ -25,6 +26,8 @@ class Thumbnail extends Model
     protected $rules = array(
         'title' => ['required', 'string', 'max:255'],
         'path' => ['required', 'string'],
+        'thumbnail_path' => ['required', 'string'],
+        'post_id' => ['required', 'integer'],
     );
 
     public function post(): belongsTo

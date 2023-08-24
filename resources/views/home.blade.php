@@ -5,6 +5,17 @@
 @section('content')
 
     <div class="container">
+
+        <?php
+//            dd($thumbnail)
+            ?>
+
+        @if( isset($thumbnail->path) )
+            <img src="{{ asset('storage/' . $thumbnail->path) }}" alt="{{ $thumbnail->title }}">
+        @endif
+
+
+
         <h1 class="h1 text-center mt-5 mb-4">Мини приложение</h1>
         <div class="row mb-5">
             <div class="col-md-6">

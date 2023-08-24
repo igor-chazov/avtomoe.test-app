@@ -28,6 +28,10 @@ Route::get('/clear', function() {
     return "Кэш очищен.";
 });
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);

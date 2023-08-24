@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Role;
+use App\Models\Thumbnail;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -14,8 +15,9 @@ class HomeController extends Controller
         $user = User::all();
         $posts = Post::all();
         $comment = Comment::find(17);
+        $thumbnail = Thumbnail::find(24);
         $developer = Role::where('slug', 'web-developer')->first();
 
-        return view('home', compact('user', 'posts', 'comment', 'developer'));
+        return view('home', compact('user', 'posts', 'comment', 'developer', 'thumbnail'));
     }
 }

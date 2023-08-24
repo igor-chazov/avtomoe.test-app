@@ -21,6 +21,7 @@ class Thumbnail extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'path' => $this->path,
+            'thumbnail_path' => $this->thumbnail_path,
             'post_id' => $this->post_id,
         ]);
     }
